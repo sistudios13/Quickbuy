@@ -16,13 +16,12 @@
     <script src="../tailwind.config.js"></script>
     <link href="styles/main.css" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@2.0.2" ></script>
-    <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
 </head>
 
 <body class="bg-gray-50">
     <section class="hero bg-cover bg-center flex items-center h-screen">
         <div class="container space-y-4 mx-auto px-4 py-20 text-center">
-            <img src="assets/fullLogo.svg" alt="logo" class="h-28 mx-auto">
+            <img src="assets/isoLogo.svg" alt="logo" class="h-28 mx-auto">
             <h1 class="text-4xl xl:text-5xl font-bold text-black">Welcome to Quickbuy</h1>
             <p class="text-lg xl:text-xl mb-8 text-gray-600">Discover a wide range of products from top brands.</p>
             <a href="#nav" class="inline-block xl:text-xl px-8 py-4 text-white bg-qb md:hover:bg-blue-600 rounded-md">Shop Now</a>
@@ -36,9 +35,10 @@
                     <img src="assets/fullLogo.svg" alt="logo" class="h-16 select-none">
                 </a>
             </div>
-            <div class="flex gap-4 text-lg">
-                <a href="#" class="md:hover:underline underline-offset-6">Login</a>
-                <a href="#" class="md:hover:underline underline-offset-6">Sign Up</a>
+            <div class="flex gap-4 text-lg items-center">
+                <a href="#"><img src="assets/shopping-cart.svg" alt="cart" class="h-6 md:hover:scale-110 transition"></a>
+                <a href="public/login.php" class="md:hover:underline underline-offset-6 ">Login</a>
+                <a href="public/register.php" class="md:hover:underline underline-offset-6">Sign Up</a>
             </div>
         </nav>
     </header>
@@ -46,7 +46,7 @@
         <section class="mt-12">
             <div>
                 <div>
-                <form hx-post="views/load_products.php" hx-target="#productWrapper" hx-swap="morph:innerHTML" class="flex justify-between px-4">
+                <form hx-post="views/load_products.php" hx-target="#productWrapper" hx-swap="innerHTML" class="flex justify-between px-4">
                     <select name="category" id="category" class="px-2 w-56 py-1 border-2 focus-visible:border-qb border-qb rounded-md">
                         <option value="" disabled selected>Select a Category:</option>
                         <hr>
@@ -55,7 +55,11 @@
                         <option value="3">Food & Drinks</option>
                         <option value="4">Sports Equipment</option>
                     </select>
-                    <button class="inline-block px-4 py-2 text-white bg-qb md:hover:bg-blue-600 rounded-md">Filter</button>
+                    <div>
+                        <button type="submit" class="inline-block px-4 py-2 text-white bg-qb md:hover:bg-blue-600 rounded-md">Filter</button>
+                        <button hx-get="views/load_products.php" hx-swap="innerHTML" hx-target="#productWrapper" class="inline-block px-4 py-2 text-white bg-red-500 md:hover:bg-red-600 rounded-md">Remove Filters</button>
+                    </div>
+
                 </form>
                 </div>
             </div>
@@ -63,11 +67,16 @@
         <section>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-12 gap-4" id="productWrapper">
                 <div hx-get="views\load_products.php" hx-swap="outerHTML" hx-trigger="load">
-                    Loading...
+                    
                 </div>
             </div>
         </section>
     </main>
+    <footer class="p-4 w-full">
+        <div class="flex justify-center text-sm mb-1">
+            <span>&copy; 2024 Quickbuy All Rights Reserved</span>
+        </div>
+    </footer>
 </body>
 
 </html>

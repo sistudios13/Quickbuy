@@ -1,0 +1,19 @@
+<div>
+    <div>
+    <form hx-post="views/load_products.php" hx-target="#productWrapper" hx-swap="innerHTML" class="flex justify-between px-4">
+        <select name="category" id="category" class="px-2 w-56 py-1 border-2 focus-visible:border-qb border-qb rounded-md">
+            <option value="" disabled selected>Select a Category:</option>
+            <hr>
+            <option value="1">Shoes</option>
+            <option value="2">Electronics</option>
+            <option value="3">Food & Drinks</option>
+            <option value="4">Sports Equipment</option>
+        </select>
+        <div>
+            <button type="submit" class="inline-block px-4 py-2 text-white bg-qb md:hover:bg-blue-600 rounded-md">Filter</button>
+            <button hx-get="views/load_products.php" hx-swap="innerHTML" hx-target="#productWrapper" class="inline-block px-4 py-2 text-white bg-red-500 md:hover:bg-red-600 rounded-md">Remove Filters</button>
+        </div>
+
+    </form>
+    </div>
+</div>
