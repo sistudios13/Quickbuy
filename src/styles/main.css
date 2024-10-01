@@ -1,0 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.underline-offset-6 {
+    text-underline-offset: 6px;
+}
