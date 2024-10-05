@@ -1,17 +1,6 @@
 <?php
 
-// Connect to the database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quickbuy";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require '../backend/db_connect.php';
 
 // Fetch product data from the database
 $sql = "SELECT id, name, price, image_url, category_id FROM products";
@@ -27,20 +16,20 @@ $sql_4 = "SELECT id, name, price, image_url, category_id FROM products WHERE cat
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['category']) && $_POST['category']!= "") {
     $category_id = $_POST['category'];
     if ($category_id == "1") {
-        $result = $conn->query($sql_1);
+        $result = $con->query($sql_1);
     } elseif ($category_id == "2") {
-        $result = $conn->query($sql_2);
+        $result = $con->query($sql_2);
     } elseif ($category_id == 3) {
-        $result = $conn->query($sql_3);
+        $result = $con->query($sql_3);
     } elseif ($category_id == 4) {
-        $result = $conn->query($sql_4);
+        $result = $con->query($sql_4);
     } else {
-        $result = $conn->query($sql);
+        $result = $con->query($sql);
     }
 }
 
 else {
-    $result = $conn->query($sql);
+    $result = $con->query($sql);
 }
 
 $products = [];
@@ -49,25 +38,23 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
         $products[] = $row;
     }
-}
-
-else {
+} else {
     echo "No products found";
 }
 
 
-$conn->close();
-
+$con->close();
 ?>
 
 
-        <?php foreach ($products as $product) : ?>
-            <div class="flex flex-col items-start p-4 bg-white rounded-md shadow-md">
-                <img src="<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" class="h-52 w-full object-contain object-center">
-                <div class="flex flex-col items-start p-2">
-                    <h3 class="text-lg font-semibold"><?php echo $product['name']; ?></h3>
-                    <p class="text-gray-500">$<?php echo number_format($product['price'], 2); ?></p>
-                    <a href="#" class="inline-block px-4 mt-4 py-2 text-white bg-qb hover:bg-blue-600 rounded-md">Add to Cart</a>
-                </div>
+<?php foreach ($products as $product) : ?>
+    <a href="./product.php?product_id=<?php echo $product['id']?>" class="md:hover:-translate-y-1 transition">
+        <div class="flex flex-col items-start p-4 bg-white rounded-md shadow-md">
+            <img src="<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>" class="h-52 w-full object-contain object-center">
+            <div class="flex flex-col items-start p-2">
+                <h3 class="text-lg font-semibold"><?php echo $product['name']; ?></h3>
+                <p class="text-gray-500">$<?php echo number_format($product['price'], 2); ?></p>
             </div>
-        <?php endforeach; ?>
+        </div>
+    </a>
+<?php endforeach; ?>
