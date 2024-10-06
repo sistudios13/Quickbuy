@@ -20,6 +20,10 @@ $result = $stmt->get_result();
 $product = $result->fetch_assoc();
 
 
+if ($result->num_rows <= 0) {
+    exit('Product Does not exist!');
+}
+
 
 ?>
 
@@ -60,7 +64,16 @@ $product = $result->fetch_assoc();
         </nav>
     </header>
     <main class="container mx-auto p-2">
-
-
+        <div class="flex flex-col mt-12">
+            <div>
+                <img class="md:w-2/3 px-2" src="<?php echo $product['image_url'] ?>" alt="<?php echo $product['name'] ?>">
+            </div>
+            <div class="mt-6 space-y-4">
+                <h2 class="font-bold text-xl mb-4"><?php echo $product['name'] ?></h2>
+                <span class="text-gray-600"><?php echo $product['price'] ?></span>
+                <p class="text-lg"> <?php echo $product['description'] ?> </p>
+                <button class="inline-block xl:text-lg px-8 py-3 text-white bg-qb md:hover:bg-blue-600 rounded-md">Add to cart</button>
+            </div>
+        </div>
     </main>
 </body>
