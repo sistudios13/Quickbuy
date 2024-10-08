@@ -21,7 +21,8 @@ $product = $result->fetch_assoc();
 
 
 if ($result->num_rows <= 0) {
-    exit('Product Does not exist!');
+    header("Location: index.php");
+    exit();
 }
 
 
@@ -39,6 +40,8 @@ if ($result->num_rows <= 0) {
     <script src="../tailwind.config.js"></script>
     <link href="styles/main.css" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@2.0.2" ></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="bg-gray-50">
@@ -53,7 +56,7 @@ if ($result->num_rows <= 0) {
             <?php if($loggedIn): ?>
                 <div class="flex gap-4 text-lg items-center">
                     <a href="#"><img src="assets/shopping-cart.svg" alt="cart" class="h-6 md:hover:scale-110 transition"></a>
-                    <a href="logout.php" class="md:hover:underline underline-offset-6">Logout</a>
+                    <a href="backend/logout.php" class="md:hover:underline underline-offset-6">Logout</a>
                 </div>
             <?php elseif (!$loggedIn): ?>
                 <div class="flex gap-4 text-lg items-center">
@@ -63,16 +66,17 @@ if ($result->num_rows <= 0) {
             <?php endif; ?>
         </nav>
     </header>
-    <main class="container mx-auto p-2">
-        <div class="flex flex-col mt-12">
+    <main class="container mx-auto p-4" x-data="{cart: $persist([]), current: 'Add to cart', added: false}" x-init=" if(cart.includes(<?php echo $product['id'] ?>)){current = 'Added!'; added = true} ">
+        <div class="grid grid-cols-1 items-center mt-12 md:grid-cols-2">
             <div>
-                <img class="md:w-2/3 px-2" src="<?php echo $product['image_url'] ?>" alt="<?php echo $product['name'] ?>">
+                <img class="md:w-2/3 w-5/6 max-w-80 px-2 mx-auto" src="<?php echo $product['image_url'] ?>" alt="<?php echo $product['name'] ?>">
             </div>
             <div class="mt-6 space-y-4">
                 <h2 class="font-bold text-xl mb-4"><?php echo $product['name'] ?></h2>
-                <span class="text-gray-600"><?php echo $product['price'] ?></span>
+                <span class="text-gray-600">$<?php echo $product['price'] ?></span>
                 <p class="text-lg"> <?php echo $product['description'] ?> </p>
-                <button class="inline-block xl:text-lg px-8 py-3 text-white bg-qb md:hover:bg-blue-600 rounded-md">Add to cart</button>
+                <button x-text="current"  @click="if(!cart.includes(<?php echo $product['id'] ?>)){cart.push(<?php echo $product['id'] ?>)}; if(cart.includes(<?php echo $product['id'] ?>)){current = 'Added!'; added = true}" class="inline-block xl:text-lg px-8 py-3 text-white bg-qb md:hover:bg-blue-600 rounded-md">Add to cart</button>
+                <button x-show="added"  @click="cart.po" class="inline-block xl:text-lg px-8 py-3 text-white bg-red-600 md:hover:bg-blue-600 rounded-md">Remove From Cart</button>
             </div>
         </div>
     </main>

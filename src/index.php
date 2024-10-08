@@ -45,7 +45,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
             <?php if($loggedIn): ?>
                 <div class="flex gap-4 text-lg items-center">
                     <a href="#"><img src="assets/shopping-cart.svg" alt="cart" class="h-6 md:hover:scale-110 transition"></a>
-                    <a href="logout.php" class="md:hover:underline underline-offset-6">Logout</a>
+                    <a href="backend/logout.php" class="md:hover:underline underline-offset-6">Logout</a>
                 </div>
             <?php elseif (!$loggedIn): ?>
                 <div class="flex gap-4 text-lg items-center">
@@ -59,7 +59,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
         <section class="mt-12">
             <div>
                 <div>
-                <form hx-post="views/load_products.php" hx-target="#productWrapper" hx-swap="innerHTML" class="flex justify-between px-4">
+                <form hx-post="views/load_products.php" hx-target="#productWrapper" hx-swap="innerHTML" class="flex flex-col md:flex-row gap-2 justify-between px-4">
                     <select name="category" id="category" class="px-2 w-56 py-1 border-2 focus-visible:border-qb border-qb rounded-md">
                         <option value="a" disabled selected>Select a Category:</option>
                         <hr>
@@ -89,6 +89,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
             <span>&copy; 2024 Quickbuy All Rights Reserved</span>
         </div>
     </footer>
+    
 </body>
 
 </html>
