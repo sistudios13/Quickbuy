@@ -42,6 +42,11 @@ if ($result->num_rows <= 0) {
     <script src="https://unpkg.com/htmx.org@2.0.2" ></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50">
@@ -75,8 +80,9 @@ if ($result->num_rows <= 0) {
                 <h2 class="font-bold text-xl mb-4"><?php echo $product['name'] ?></h2>
                 <span class="text-gray-600">$<?php echo $product['price'] ?></span>
                 <p class="text-lg"> <?php echo $product['description'] ?> </p>
-                <button x-text="current"  @click="if(!cart.includes(<?php echo $product['id'] ?>)){cart.push(<?php echo $product['id'] ?>)}; if(cart.includes(<?php echo $product['id'] ?>)){current = 'Added!'; added = true}" class="inline-block xl:text-lg px-8 py-3 text-white bg-qb md:hover:bg-blue-600 rounded-md">Add to cart</button>
-                <button x-show="added"  @click="cart.po" class="inline-block xl:text-lg px-8 py-3 text-white bg-red-600 md:hover:bg-blue-600 rounded-md">Remove From Cart</button>
+                <button x-cloak x-text="current"  @click="if(!cart.includes(<?php echo $product['id'] ?>)){cart.push(<?php echo $product['id'] ?>)}; if(cart.includes(<?php echo $product['id'] ?>)){current = 'Added!'; added = true}" class="inline-block xl:text-lg px-8 py-3 text-white bg-qb md:hover:bg-blue-600 rounded-md">Add to cart</button>
+                <!-- Delete Thingy-->
+                <button x-cloak x-show="added" @click="cart = cart.filter(function(arr) { return arr  !== <?php echo $product['id'] ?>}); added = false; current = 'Add to cart'" class="inline-block xl:text-lg px-8 py-3 text-white bg-red-600 md:hover:bg-blue-600 rounded-md">Remove From Cart</button>
             </div>
         </div>
     </main>
